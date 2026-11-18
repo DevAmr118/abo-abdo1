@@ -420,8 +420,11 @@ function sendW() {
   if (a) t += '🏠 العنوان: ' + a + '\n';
   if (no) t += '📝 ملاحظات: ' + no + '\n';
 
-  var url = 'https://' + '://whatsapp.com' + PHONE + '&text=' + encodeURIComponent(t);
-  window.location.href = url;
+  var host = 'api' + '.' + 'whatsapp' + '.' + 'com';
+var link = 'https://' + host + '/send?phone=' + PHONE + '&text=' + encodeURIComponent(t);
+
+window.open(link, '_top');
+
 }
 
 render('all');
