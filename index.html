@@ -1,0 +1,430 @@
+<!DOCTYPE html>
+<html lang="ar" dir="rtl">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>مطعم أبو عبده | كريب وبيتزا</title>
+<style>
+@import url('https://googleapis.com');
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+  font-family: 'Cairo', Tahoma, sans-serif;
+}
+body {
+  background: #f9fafb;
+  color: #1f2937;
+  padding-bottom: 90px;
+}
+header {
+  background: linear-gradient(135deg, #d9381e, #991b1b);
+  color: #fff;
+  text-align: center;
+  padding: 24px 15px;
+}
+header h1 {
+  font-size: 1.9rem;
+  font-weight: 800;
+}
+.acts {
+  display: flex;
+  justify-content: center;
+  gap: 10px;
+  margin-top: 12px;
+  flex-wrap: wrap;
+}
+.badge {
+  background: rgba(255,255,255,0.2);
+  padding: 6px 14px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+}
+.call {
+  background: #10b981;
+  color: #fff;
+  text-decoration: none;
+  padding: 6px 16px;
+  border-radius: 20px;
+  font-size: 0.85rem;
+  font-weight: 700;
+}
+.tabs {
+  display: flex;
+  justify-content: center;
+  gap: 8px;
+  padding: 12px;
+  background: #fff;
+  position: sticky;
+  top: 0;
+  z-index: 90;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.06);
+  flex-wrap: wrap;
+}
+.tab {
+  padding: 6px 16px;
+  border: 2px solid #d9381e;
+  background: #fff;
+  color: #d9381e;
+  border-radius: 25px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.tab.active {
+  background: #d9381e;
+  color: #fff;
+}
+.box {
+  max-width: 850px;
+  margin: 20px auto;
+  padding: 0 15px;
+}
+.grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(260px, 1fr));
+  gap: 16px;
+}
+.card {
+  background: #fff;
+  border-radius: 14px;
+  padding: 16px;
+  box-shadow: 0 3px 10px rgba(0,0,0,0.07);
+  display: flex;
+  flex-direction: column;
+  border-right: 4px solid #f59e0b;
+}
+.ctitle {
+  font-size: 1.15rem;
+  font-weight: 700;
+  margin-bottom: 5px;
+}
+.cdesc {
+  font-size: 0.85rem;
+  color: #6b7280;
+  margin-bottom: 14px;
+}
+.cfoot {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: auto;
+}
+.price {
+  font-size: 1.15rem;
+  font-weight: 800;
+  color: #d9381e;
+}
+.add {
+  background: #d9381e;
+  color: #fff;
+  border: none;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.bar {
+  position: fixed;
+  bottom: 0;
+  left: 0;
+  right: 0;
+  background: #1f2937;
+  color: #fff;
+  padding: 15px 22px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  z-index: 100;
+}
+.vbtn {
+  background: #f59e0b;
+  color: #1f2937;
+  border: none;
+  padding: 10px 20px;
+  border-radius: 8px;
+  font-weight: 800;
+  font-size: 0.95rem;
+  cursor: pointer;
+}
+.modal {
+  display: none;
+  position: fixed;
+  inset: 0;
+  background: rgba(0,0,0,0.65);
+  z-index: 200;
+  justify-content: center;
+  align-items: center;
+  padding: 15px;
+}
+.mcont {
+  background: #fff;
+  width: 100%;
+  max-width: 500px;
+  border-radius: 16px;
+  padding: 22px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+.mhead {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  border-bottom: 1px solid #eee;
+  padding-bottom: 12px;
+  margin-bottom: 14px;
+}
+.close {
+  background: none;
+  border: none;
+  font-size: 1.6rem;
+  cursor: pointer;
+  color: #6b7280;
+}
+.citem {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 10px 0;
+  border-bottom: 1px dashed #e5e7eb;
+}
+.qty button {
+  background: #f3f4f6;
+  border: 1px solid #d1d5db;
+  width: 30px;
+  height: 30px;
+  border-radius: 6px;
+  font-weight: 700;
+  cursor: pointer;
+}
+.sum {
+  background: #f3f4f6;
+  padding: 14px;
+  border-radius: 10px;
+  margin-top: 14px;
+  font-size: 0.95rem;
+}
+.srow {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 6px;
+}
+.stot {
+  display: flex;
+  justify-content: space-between;
+  font-weight: 800;
+  font-size: 1.15rem;
+  color: #d9381e;
+  border-top: 1px solid #d1d5db;
+  padding-top: 8px;
+  margin-top: 6px;
+}
+.fg {
+  margin-top: 12px;
+}
+.fg label {
+  display: block;
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-bottom: 4px;
+}
+.fg input, .fg textarea, .fg select {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 0.95rem;
+  background: #fff;
+}
+.wbtn {
+  width: 100%;
+  background: #25D366;
+  color: #fff;
+  border: none;
+  padding: 14px;
+  border-radius: 10px;
+  font-size: 1.1rem;
+  font-weight: 800;
+  margin-top: 16px;
+  cursor: pointer;
+}
+</style>
+</head>
+<body>
+<header>
+  <h1>🍕 مطعم أبو عبده 🌯</h1>
+  <p>أحلى كريب وبيتزا سخنة لحد باب بيتك</p>
+  <div class="acts">
+    <div class="badge">📍 شبراقاص - مركز السنطة | الدفع عند الاستلام</div>
+    <a href="tel:01006023281" class="call">📞 اتصل بالمطعم</a>
+  </div>
+</header>
+
+<div class="tabs">
+  <button class="tab active" onclick="flt('all', this)">الكل</button>
+  <button class="tab" onclick="flt('crepe', this)">الكريبات 🌯</button>
+  <button class="tab" onclick="flt('pizza', this)">البيتزا 🍕</button>
+  <button class="tab" onclick="flt('extras', this)">إضافات 🍟</button>
+</div>
+
+<div class="box">
+  <div class="grid" id="menu"></div>
+</div>
+
+<div class="bar">
+  <div><span id="cnt">0</span> أصناف | الإجمالي: <strong id="tot">0</strong> ج.م</div>
+  <button class="vbtn" onclick="openC()">مراجعة الطلب 🛒</button>
+</div>
+
+<div class="modal" id="mod">
+  <div class="mcont">
+    <div class="mhead">
+      <h3>طلباتك من أبو عبده</h3>
+      <button class="close" onclick="closeC()">&times;</button>
+    </div>
+    <div id="clist"></div>
+    <div class="fg">
+      <label>منطقة التوصيل / الاستلام *</label>
+      <select id="area" onchange="upd()">
+        <option value="0">استلام من المطعم (بدون توصيل)</option>
+        <option value="10">داخل شبراقاص (+10 ج.م)</option>
+        <option value="20">مدينة السنطة (+20 ج.م)</option>
+        <option value="25">القرى المجاورة (+25 ج.م)</option>
+      </select>
+    </div>
+    <div class="sum">
+      <div class="srow"><span>حساب الأكل:</span><span><strong id="msub">0</strong> ج.م</span></div>
+      <div class="srow"><span>تكلفة التوصيل:</span><span><strong id="mdel">0</strong> ج.م</span></div>
+      <div class="stot"><span>الإجمالي النهائي:</span><span><span id="mtot">0</span> ج.م</span></div>
+    </div>
+    <div class="fg"><label>الاسم بالكامل *</label><input type="text" id="cname" placeholder="اكتب اسمك هنا"></div>
+    <div class="fg"><label>رقم الموبايل *</label><input type="tel" id="cphone" placeholder="010xxxxxxxx"></div>
+    <div class="fg"><label>العنوان بالتفصيل *</label><textarea id="caddr" rows="2" placeholder="الشارع / علامة مميزة"></textarea></div>
+    <div class="fg"><label>ملاحظات (اختياري)</label><input type="text" id="cnote" placeholder="مثال: زود كاتشب، بدون شطة"></div>
+    <button class="wbtn" onclick="sendW()">إرسال الطلب على واتساب ✅</button>
+  </div>
+</div>
+<script>
+var PHONE = "201006023281";
+var items = [
+  {id: 1, cat: 'crepe', name: 'كريب فراخ بانيه', desc: 'قطع بانيه مقرمشة + موتزاريلا + صوصات', price: 65},
+  {id: 2, cat: 'crepe', name: 'كريب زنجر سبايسي', desc: 'استربس حار + شيدر وموتزاريلا + هالبينو', price: 70},
+  {id: 3, cat: 'crepe', name: 'كريب شاورما فراخ', desc: 'شاورما سوري + تومية + خيار مخلل', price: 70},
+  {id: 4, cat: 'crepe', name: 'كريب ميكس جبن', desc: 'موتزاريلا + رومي + شيدر + زيتون', price: 50},
+  {id: 5, cat: 'crepe', name: 'كريب نوتيلا وموز (حلو)', desc: 'شوكولاتة نوتيلا + شرائح موز طازة', price: 45},
+  {id: 6, cat: 'pizza', name: 'بيتزا مارجريتا (وسط)', desc: 'صلصة بيتزا + غرقانة موتزاريلا وزعتر', price: 70},
+  {id: 7, cat: 'pizza', name: 'بيتزا فراخ رانش (وسط)', desc: 'قطع فراخ مشوية + صوص رانش + خضار', price: 95},
+  {id: 8, cat: 'pizza', name: 'بيتزا سوسيس وبيبروني (وسط)', desc: 'سوسيس + بيبروني + فلفل ألوان + زيتون', price: 90},
+  {id: 9, cat: 'pizza', name: 'بيتزا سوبر سوبريم (كبير)', desc: 'ميكس لحوم وفراخ + خضار + جبنة إكسترا', price: 120},
+  {id: 10, cat: 'extras', name: 'باكت بطاطس محمرة', desc: 'بطاطس مقرمشة بالبهارات', price: 25},
+  {id: 11, cat: 'extras', name: 'علبة تومية / كاتشب', desc: 'إضافة صوص جانبي', price: 10}
+];
+
+var cart = {};
+
+function render(f) {
+  f = f || 'all';
+  var c = document.getElementById('menu');
+  c.innerHTML = '';
+  for (var j = 0; j < items.length; j++) {
+    var i = items[j];
+    if (f === 'all' || i.cat === f) {
+      c.innerHTML += '<div class="card">' +
+        '<div class="ctitle">' + i.name + '</div>' +
+        '<div class="cdesc">' + i.desc + '</div>' +
+        '<div class="cfoot"><span class="price">' + i.price + ' ج.م</span>' +
+        '<button class="add" onclick="add(' + i.id + ')">+ أضف</button></div></div>';
+    }
+  }
+}
+
+function flt(c, b) {
+  var tabs = document.querySelectorAll('.tab');
+  for (var j = 0; j < tabs.length; j++) tabs[j].classList.remove('active');
+  b.classList.add('active');
+  render(c);
+}
+
+function add(id) {
+  if (cart[id]) cart[id].qty++;
+  else {
+    var it = items.find(function(x) { return x.id == id; });
+    cart[id] = {id: it.id, name: it.name, price: it.price, qty: 1};
+  }
+  upd();
+}
+
+function chg(id, d) {
+  if (!cart[id]) return;
+  cart[id].qty += d;
+  if (cart[id].qty <= 0) delete cart[id];
+  upd();
+  rMod();
+}
+
+function upd() {
+  var c = 0, s = 0;
+  for (var k in cart) {
+    c += cart[k].qty;
+    s += cart[k].price * cart[k].qty;
+  }
+  var fee = c > 0 ? parseInt(document.getElementById('area').value) : 0;
+  document.getElementById('cnt').innerText = c;
+  document.getElementById('tot').innerText = s;
+  document.getElementById('msub').innerText = s;
+  document.getElementById('mdel').innerText = fee;
+  document.getElementById('mtot').innerText = s + fee;
+}
+
+function openC() {
+  if (!Object.keys(cart).length) return alert('السلة فاضية! اختار الأكل الأول.');
+  upd();
+  rMod();
+  document.getElementById('mod').style.display = 'flex';
+}
+
+function closeC() {
+  document.getElementById('mod').style.display = 'none';
+}
+
+function rMod() {
+  var l = document.getElementById('clist');
+  l.innerHTML = '';
+  for (var k in cart) {
+    var i = cart[k];
+    l.innerHTML += '<div class="citem"><div><strong>' + i.name + '</strong><br>' +
+      '<small>' + i.price + ' ج.م × ' + i.qty + ' = ' + (i.price * i.qty) + ' ج.م</small></div>' +
+      '<div class="qty"><button onclick="chg(' + i.id + ',-1)">-</button>' +
+      '<span style="margin:0 10px; font-weight:bold">' + i.qty + '</span>' +
+      '<button onclick="chg(' + i.id + ',1)">+</button></div></div>';
+  }
+  if (!Object.keys(cart).length) closeC();
+}
+
+function sendW() {
+  var n = document.getElementById('cname').value.trim();
+  var p = document.getElementById('cphone').value.trim();
+  var a = document.getElementById('caddr').value.trim();
+  var no = document.getElementById('cnote').value.trim();
+  var sel = document.getElementById('area');
+  var fee = parseInt(sel.value);
+  var aname = sel.options[sel.selectedIndex].text;
+  if (!n || !p || (!a && fee > 0)) return alert('اكتب الاسم ورقم الموبايل والعنوان عشان الأوردر يوصلك.');
+
+  var t = '*طلب جديد لمطعم أبو عبده* 🍕🌯\n------------------\n', s = 0;
+  for (var k in cart) {
+    var i = cart[k], x = i.price * i.qty;
+    s += x;
+    t += '▪️ ' + i.name + ' (' + i.qty + ') = ' + x + ' ج.م\n';
+  }
+  t += '------------------\n💵 الأكل: ' + s + ' ج.م\n🛵 التوصيل (' + aname + '): ' + fee + ' ج.م\n*💰 الإجمالي:* ' + (s + fee) + ' ج.م\n\n👤 الاسم: ' + n + '\n📱 الموبايل: ' + p + '\n📍 المنطقة: ' + aname + '\n';
+  if (a) t += '🏠 العنوان: ' + a + '\n';
+  if (no) t += '📝 ملاحظات: ' + no + '\n';
+
+  var url = 'https://' + '://whatsapp.com' + PHONE + '&text=' + encodeURIComponent(t);
+  window.location.href = url;
+}
+
+render('all');
+</script>
+</body>
+</html>
